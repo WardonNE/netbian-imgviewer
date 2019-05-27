@@ -1,7 +1,7 @@
 package app
 
 import (
-	"modules/config"
+	"modules/util/config"
 
 	"fmt"
 	"sync/atomic"
