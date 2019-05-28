@@ -12,7 +12,7 @@ func NewMenu() *MyMenu {
 	return &MyMenu{}
 }
 
-func (m *MyMenu) SetText(t string) *MyMemu {
+func (m *MyMenu) SetText(t string) *MyMenu {
 	m.WalkMenu.Text = t
 	return m
 }

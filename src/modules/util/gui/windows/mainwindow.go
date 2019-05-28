@@ -3,8 +3,7 @@ package windows
 import (
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
-
-	"fmt"
+	// "fmt"
 )
 
 type MyMainWindow struct {
@@ -78,6 +77,6 @@ func (m *MyMainWindow) SetChildren(w []Widget) *MyMainWindow {
 
 func (m *MyMainWindow) Run() {
 	if _, err := m.mw.Run(); err != nil {
-		fmt.Printf("Run Main Window Error: \r\n %v", err)
+		panic(err)
 	}
 }

@@ -54,7 +54,7 @@ func (m *MyMargins) SetBottom(b int) *MyMargins {
 	return m
 }
 
-func (m *MyMargins) Create() *MyMargins {
+func (m *MyMargins) Create() Margins {
 	return m.WalkMargins
 }
 
