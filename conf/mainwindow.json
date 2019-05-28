@@ -1,0 +1,11 @@
+{
+    "title": "netbianimgviewer",
+    "width": 720,
+    "height": 540,
+    "min_width": 720,
+    "min_height": 540,
+    "max_width": 720,
+    "max_height": 540,
+    "enabled": true,
+    "debug": true
+}
