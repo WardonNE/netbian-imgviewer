@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+    <Profiles>
+        <Title>NetBian-ImageViewer</Title>
+        <Version>1.0.0</Version>
+        <Author>Wardon</Author>
+    </Profiles>
+    <MainWindowSize>
+        <Size>
+            <Width>1080</Width>
+            <Height>720</Height>
+        </Size>
+        <MinSize>
+            <Width>1080</Width>
+            <Height>720</Height>
+        </MinSize>
+        <MaxSize>
+            <Width>1080</Width>
+            <Height>720</Height>
+        </MaxSize>
+    </MainWindowSize>
+</Config>

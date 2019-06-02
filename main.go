@@ -1,9 +1,10 @@
 package main
 
 import (
-	"modules/window"
+	"fmt"
+	"modules/app"
 )
 
 func main() {
-	window.Run()
+	fmt.Println(app.MainWindowConf)
 }
