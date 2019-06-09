@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"modules/app"
+	"modules/gui"
 )
 
 func main() {
-	fmt.Println(app.MainWindowConf)
+	gui.CreateMainWindow()
 }

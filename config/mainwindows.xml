@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Config>
+
     <Profiles>
         <Title>NetBian-ImageViewer</Title>
         <Version>1.0.0</Version>
@@ -19,4 +20,60 @@
             <Height>720</Height>
         </MaxSize>
     </MainWindowSize>
+    <MenuList>
+        <AboutMenu>
+            <Text>关于</Text>
+            <Items>
+                <MenuList>
+                    <Separator></Separator>
+                    <Action>
+                        <Text>查看</Text>
+                    </Action>
+                </MenuList>
+            </Items>
+        </AboutMenu>
+    </MenuList>
+    <VBox>
+        <MarginsZero>true</MarginsZero>
+    </VBox>
+    <Children>
+        <ToolBarComposite>
+            <MaxSize>
+                <Width>0</Width>
+                <Height>50</Height>
+            </MaxSize>
+            <HBox></HBox>
+            <Children>
+                <Widget>
+                    <FollowPushButton>
+                        <Text>收藏图片</Text>
+                    </FollowPushButton>
+                    <CancelFallowPushButton>
+                        <Text>取消收藏</Text>
+                    </CancelPushButton>
+                    <CatalogLabel>
+                        <Text>分类:</Text>
+                    </CatalogLabel>
+                    <SizeLabel>
+                        <Text>尺寸:</Text>
+                    </SizeLabel>
+                    <SearchLabel>
+                        <Text>关键字:</Text>
+                    </SearchLabel>
+                    <LineEdit>
+                        <Text></Text>
+                    </LineEdit>
+                    <SearchPushButton>
+                        <Text>查询</Text>
+                    </SearchPushButton>
+                    <PrevPagePushButton>
+                        <Text>上一页</Text>
+                    </PrevPagePushButton>
+                    <NextPagePushButton>
+                        <Text>下一页</Text>
+                    </NextPagePushButton>
+                </Widget>
+            </Children>
+        </ToolBarComposite>
+    </Children>
 </Config>
