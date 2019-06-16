@@ -8,16 +8,16 @@
     </Profiles>
     <MainWindowSize>
         <Size>
-            <Width>1080</Width>
-            <Height>720</Height>
+            <Width>1200</Width>
+            <Height>760</Height>
         </Size>
         <MinSize>
-            <Width>1080</Width>
-            <Height>720</Height>
+            <Width>1200</Width>
+            <Height>760</Height>
         </MinSize>
         <MaxSize>
-            <Width>1080</Width>
-            <Height>720</Height>
+            <Width>1200</Width>
+            <Height>760</Height>
         </MaxSize>
     </MainWindowSize>
     <MenuList>
@@ -39,8 +39,8 @@
     <Children>
         <ToolBarComposite>
             <MaxSize>
-                <Width>0</Width>
-                <Height>50</Height>
+                <Width>1200</Width>
+                <!-- <Height>20</Height> -->
             </MaxSize>
             <HBox></HBox>
             <Children>
@@ -48,20 +48,51 @@
                     <FollowPushButton>
                         <Text>收藏图片</Text>
                     </FollowPushButton>
-                    <CancelFallowPushButton>
+                    <CancelFollowPushButton>
                         <Text>取消收藏</Text>
-                    </CancelPushButton>
+                    </CancelFollowPushButton>
+                    <DownloadPushButton>
+                        <Text>下载图片</Text>
+                    </DownloadPushButton>
                     <CatalogLabel>
                         <Text>分类:</Text>
                     </CatalogLabel>
+                    <CatalogComboBox>
+                        <MaxSize>
+                            <Width>300</Width>
+                            <!-- <Height>20</Height> -->
+                        </MaxSize>
+                        <MinSize>
+                            <Widget>300</Widget>
+                            <!-- <Height>20</Height> -->
+                        </MinSize>
+                    </CatalogComboBox>
                     <SizeLabel>
                         <Text>尺寸:</Text>
                     </SizeLabel>
+                    <SizeComboBox>
+                            <MaxSize>
+                            <Width>300</Width>
+                            <!-- <Height>20</Height> -->
+                        </MaxSize>
+                        <MinSize>
+                            <Widget>300</Widget>
+                            <!-- <Height>20</Height> -->
+                        </MinSize>
+                    </SizeComboBox>
                     <SearchLabel>
                         <Text>关键字:</Text>
                     </SearchLabel>
                     <LineEdit>
                         <Text></Text>
+                        <MaxSize>
+                            <Width>100</Width>
+                            <!-- <Height>20</Height> -->
+                        </MaxSize>
+                        <MinSize>
+                            <Width>100</Width>
+                            <!-- <Height>20</Height> -->
+                        </MinSize>
                     </LineEdit>
                     <SearchPushButton>
                         <Text>查询</Text>
@@ -75,5 +106,40 @@
                 </Widget>
             </Children>
         </ToolBarComposite>
+        <BodyComposite>
+            <Layout>
+                <Grid>
+                    <Columns>2</Columns>
+                    <Spacing>10</Spacing>
+                </Grid>
+            </Layout>
+            <ImageListBox>
+                <MaxSize>
+                    <Width>200</Width>
+                    <Height></Height>
+                </MaxSize>
+                <MinSize>
+                    <Width>200</Width>
+                    <Height></Height>
+                </MinSize>
+            </ImageListBox>
+            <ImageView>
+                <MaxSize>
+                    <!-- <Width>990</Width> -->
+                    <!-- <Height>600</Height> -->
+                </MaxSize>
+                <MinSize>
+                    <!-- <Width>990</Width> -->
+                    <!-- <Height>600</Height> -->
+                </MinSize>
+                <Image>../tmp/084010-15332568107994.jpg</Image>
+                <!-- <Margin>0</Margin> -->
+                <Background>
+                    <R>255</R>
+                    <G>255</G>
+                    <B>255</B>
+                </Background>
+            </ImageView>
+        </BodyComposite>
     </Children>
 </Config>

@@ -2,7 +2,6 @@ package gui
 
 import (
 	"modules/app"
-	"modules/gui/windows"
 
 	. "github.com/lxn/walk/declarative"
 )
@@ -12,10 +11,11 @@ func GetMenuList() []MenuItem {
 }
 
 func GetAboutMenu() Menu {
-	m := windows.NewMenu()
-	m.Text(app.MainWindowConf.MenuList.AboutMenu.Text)
-	m.MenuItem(GetAboutMenuList())
-	return m.Create()
+	aboutmenu := app.MainWindowConf.MenuList.AboutMenu
+	return Menu{
+		Text:  aboutmenu.Text,
+		Items: GetAboutMenuList(),
+	}
 }
 
 func GetAboutMenuList() []MenuItem {
@@ -26,11 +26,13 @@ func GetAboutMenuList() []MenuItem {
 }
 
 func GetAboutMenuSeparator() Separator {
-	return windows.NewSeparator().Create()
+	//separator := app.MainWindowConf.MenuList.AboutMenu.Items.MenuList.MenuList.Separator
+	return Separator{}
 }
 
 func AboutViewAction() Action {
-	m := windows.NewAction()
-	m.Text(app.MainWindowConf.MenuList.AboutMenu.Items.MenuList.Action.Text)
-	return m.Create()
+	action := app.MainWindowConf.MenuList.AboutMenu.Items.MenuList.Action
+	return Action{
+		Text: action.Text,
+	}
 }

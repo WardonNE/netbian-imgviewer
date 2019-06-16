@@ -1,0 +1,11 @@
+<Config>
+    <RootUrl>http://www.netbian.com</RootUrl>
+    <Catalogs>
+        <TargetElement>div.nav</TargetElement>
+        <TargetElementIndex>0</TargetElementIndex>
+    </Catalogs>
+    <Size>
+        <TargetElement>div.nav</TargetElement>
+        <TargetElementIndex>1</TargetElementIndex>
+    </Size>
+</Config>

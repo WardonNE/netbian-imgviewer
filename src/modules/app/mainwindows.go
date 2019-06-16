@@ -51,17 +51,42 @@ type MainWindowConfig struct {
 					CancelFollowPushButton struct {
 						Text string
 					}
+					DownloadPushButton struct {
+						Text string
+					}
 					CatalogLabel struct {
 						Text string
 					}
+					CatalogComboBox struct {
+						MaxSize struct {
+							Width, Height int
+						}
+						MinSize struct {
+							Width, Height int
+						}
+					}
 					SizeLabel struct {
 						Text string
+					}
+					SizeComboBox struct {
+						MaxSize struct {
+							Width, Height int
+						}
+						MinSize struct {
+							Width, Height int
+						}
 					}
 					SearchLabel struct {
 						Text string
 					}
 					LineEdit struct {
-						Text string
+						Text    string
+						MaxSize struct {
+							Width, Height int
+						}
+						MinSize struct {
+							Width, Height int
+						}
 					}
 					SearchPushButton struct {
 						Text string
@@ -72,6 +97,35 @@ type MainWindowConfig struct {
 					NextPagePushButton struct {
 						Text string
 					}
+				}
+			}
+		}
+		BodyComposite struct {
+			Layout struct {
+				Grid struct {
+					Columns int
+					Spacing int
+				}
+			}
+			ImageListBox struct {
+				MaxSize struct {
+					Width, Height int
+				}
+				MinSize struct {
+					Width, Height int
+				}
+			}
+			ImageView struct {
+				MaxSize struct {
+					Width, Height int
+				}
+				MinSize struct {
+					Width, Height int
+				}
+				Image      string
+				Margin     int
+				Background struct {
+					R, G, B byte
 				}
 			}
 		}

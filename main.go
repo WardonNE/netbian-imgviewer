@@ -5,5 +5,7 @@ import (
 )
 
 func main() {
+	// catalogs := crawl.LoadCatalogs()
+	// fmt.Println(catalogs)
 	gui.CreateMainWindow()
 }

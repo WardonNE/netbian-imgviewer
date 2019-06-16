@@ -2,18 +2,29 @@ package gui
 
 import (
 	"modules/app"
-	"modules/gui/windows"
 
+	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 )
 
-var mw MainWindow
+type MyMainWindow struct {
+	*walk.MainWindow
+
+	catalogcb *walk.ComboBox
+}
 
 func CreateMainWindow() {
-	m := windows.NewMainWindow(mw).Title(getTitle())
-	m.Size(getSize()).MinSize(getMinSize()).MaxSize(getMaxSize())
-	m.MenuItems(GetMenuList())
-	m.VBoxLayout(GetVBox())
+	var mw = &MyMainWindow{}
+	m := MainWindow{
+		AssignTo:  &mw.MainWindow,
+		Title:     getTitle(),
+		Size:      getSize(),
+		MinSize:   getMinSize(),
+		MaxSize:   getMaxSize(),
+		MenuItems: GetMenuList(),
+		Layout:    GetVBox(),
+		Children:  GetMainWindowChildren(),
+	}
 	m.Run()
 }
 
