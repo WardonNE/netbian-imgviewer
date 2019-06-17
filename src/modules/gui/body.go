@@ -115,6 +115,22 @@ func reloadImageListModelBySize(url string, page int) {
 	mw.catalogcb.SetCurrentIndex(-1)
 }
 
+func reloadIamgeListModeBySearchKeyword(keyword string, page int) {
+	imagelist := crawl.LoadImageBySearchKeyword(keyword, page)
+	model := &imageListBoxModel{
+		items: make([]imageItem, len(imagelist)),
+	}
+	for key, image := range imagelist {
+		model.items[key] = imageItem{
+			title: image.Name,
+			url:   image.Url,
+		}
+	}
+	mw.imagelbmodel = model
+	mw.imagelb.SetModel(model)
+	mw.catalogcb.SetCurrentIndex(-1)
+}
+
 func (i *imageListBoxModel) ItemCount() int {
 	return len(i.items)
 }

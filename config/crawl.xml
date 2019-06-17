@@ -12,4 +12,7 @@
         <TargetElement>div.list>ul</TargetElement>
         <TargetElementIndex>0</TargetElementIndex>
     </ImageList>
+    <Search>
+        <SearchApi>/e/sch/index.php</SearchApi>
+    </Search>
 </Config>

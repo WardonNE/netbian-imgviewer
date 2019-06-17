@@ -124,7 +124,6 @@ func GetSizeComboBox() ComboBox {
 		MinSize:               minsize,
 		Model:                 GetSizeComboBoxModel(),
 		OnCurrentIndexChanged: mw.sizeCbModelOnCurrentIndexChanged,
-		// CurrentIndex:          0,
 	}
 }
 
@@ -150,15 +149,22 @@ func GetSearchLineEdit() LineEdit {
 		le.MinSize.Height,
 	}
 	return LineEdit{
-		MaxSize: maxsize,
-		MinSize: minsize,
+		AssignTo: &mw.searchle,
+		MaxSize:  maxsize,
+		MinSize:  minsize,
 	}
 }
 
 func GetSearchPushButton() PushButton {
 	pb := app.MainWindowConf.Children.ToolBarComposite.Children.Widget.SearchPushButton
 	return PushButton{
+		// AssignTo: &mw.searchpb,
 		Text: pb.Text,
+		OnClicked: func() {
+			keyword := mw.searchle.Text()
+			fmt.Println("Search Keyword:", keyword)
+			reloadIamgeListModeBySearchKeyword(keyword, 1)
+		},
 	}
 }
 
@@ -258,4 +264,10 @@ func (m *MyMainWindow) sizeCbModelOnCurrentIndexChanged() {
 	}
 	activeItem := m.sizecbmodel.items[i]
 	reloadImageListModelBySize(activeItem.url, 1)
+}
+
+func searchPbOnClick() {
+	keyword := mw.searchle.Text()
+	fmt.Println("Search Keyword:", keyword)
+	reloadIamgeListModeBySearchKeyword(keyword, 1)
 }

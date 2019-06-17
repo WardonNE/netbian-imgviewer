@@ -1,6 +1,7 @@
 package gui
 
 import (
+	"log"
 	"modules/app"
 
 	"github.com/lxn/walk"
@@ -14,7 +15,9 @@ type MyMainWindow struct {
 	sizecb         *walk.ComboBox
 	sizecbmodel    *sizeComboBoxModel
 	imagelb        *walk.ListBox
-	imagelbmodel    *imageListBoxModel
+	imagelbmodel   *imageListBoxModel
+	searchpb       *walk.PushButton
+	searchle       *walk.LineEdit
 }
 
 var mw = &MyMainWindow{}
@@ -30,7 +33,9 @@ func CreateMainWindow() {
 		Layout:    GetVBox(),
 		Children:  GetMainWindowChildren(),
 	}
-	m.Run()
+	if _, err := m.Run(); err != nil {
+		log.Panicln("run mainwindow error:", err)
+	}
 }
 
 func getTitle() string {

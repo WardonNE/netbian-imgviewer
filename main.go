@@ -1,8 +1,6 @@
 package main
 
-import (
-	"modules/gui"
-)
+import "modules/gui"
 
 func main() {
 	gui.CreateMainWindow()

@@ -20,6 +20,9 @@ type CrawlConfig struct {
 		TargetElement      string
 		TargetElementIndex int
 	}
+	Search struct {
+		SearchApi string
+	}
 }
 
 var CrawlConf = &CrawlConfig{}
