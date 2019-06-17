@@ -9,12 +9,17 @@ import (
 
 type MyMainWindow struct {
 	*walk.MainWindow
-
-	catalogcb *walk.ComboBox
+	catalogcb      *walk.ComboBox
+	catalogcbmodel *catalogComboBoxModel
+	sizecb         *walk.ComboBox
+	sizecbmodel    *sizeComboBoxModel
+	imagelb        *walk.ListBox
+	imagelbmodel    *imageListBoxModel
 }
 
+var mw = &MyMainWindow{}
+
 func CreateMainWindow() {
-	var mw = &MyMainWindow{}
 	m := MainWindow{
 		AssignTo:  &mw.MainWindow,
 		Title:     getTitle(),

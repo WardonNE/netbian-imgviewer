@@ -8,4 +8,8 @@
         <TargetElement>div.nav</TargetElement>
         <TargetElementIndex>1</TargetElementIndex>
     </Size>
+    <ImageList>
+        <TargetElement>div.list>ul</TargetElement>
+        <TargetElementIndex>0</TargetElementIndex>
+    </ImageList>
 </Config>

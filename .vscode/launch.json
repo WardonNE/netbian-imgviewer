@@ -9,10 +9,10 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "F:/GoWorkspace/neibian-imgviewer",
+            "program": "E:\\goworkspace\\netbian-imgviewer",
             "env": {
-                "GOBIN": "F:/GoWorkspace/neibian-imgviewer/bin",
-                "GOPATH": "F:/GoWorkspace;F:/GoWorkspace/neibian-imgviewer"
+                "GOBIN": "E:\\goworkspace\\netbian-imgviewer\\bin",
+                "GOPATH": "E:\\goworkspace;E:\\goworkspace\\netbian-imgviewer"
             },
             "args": []
         }

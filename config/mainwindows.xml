@@ -56,6 +56,10 @@
                     </DownloadPushButton>
                     <CatalogLabel>
                         <Text>分类:</Text>
+                        <MaxSize>
+                            <Width>100</Width>
+                            <Height></Height>
+                        </MaxSize>
                     </CatalogLabel>
                     <CatalogComboBox>
                         <MaxSize>
@@ -69,9 +73,13 @@
                     </CatalogComboBox>
                     <SizeLabel>
                         <Text>尺寸:</Text>
+                        <MaxSize>
+                            <Width>100</Width>
+                            <Height></Height>
+                        </MaxSize>
                     </SizeLabel>
                     <SizeComboBox>
-                            <MaxSize>
+                        <MaxSize>
                             <Width>300</Width>
                             <!-- <Height>20</Height> -->
                         </MaxSize>
@@ -82,6 +90,10 @@
                     </SizeComboBox>
                     <SearchLabel>
                         <Text>关键字:</Text>
+                        <MaxSize>
+                            <Width>100</Width>
+                            <Height></Height>
+                        </MaxSize>
                     </SearchLabel>
                     <LineEdit>
                         <Text></Text>
@@ -118,6 +130,24 @@
                     <Width>200</Width>
                     <Height></Height>
                 </MaxSize>
+                <Font>
+                    <Family></Family>
+                    <PointSize>10</PointSize>
+                    <Bold></Bold>
+                    <Italic></Italic>
+                    <UnderLine></UnderLine>
+                    <StrikeOut></StrikeOut>
+                </Font>
+                <!-- <Row>18</Row>
+                <RowSpan>18</RowSpan> -->
+                <!-- <Column>20</Column>
+                <ColumnSpan>1</ColumnSpan> -->
+                <!-- <AlwaysConsumeSpace>true</AlwaysConsumeSpace> -->
+                <Background>
+                    <R>255</R>
+                    <G>255</G>
+                    <B>255</B>
+                </Background>
                 <MinSize>
                     <Width>200</Width>
                     <Height></Height>
@@ -136,8 +166,8 @@
                 <!-- <Margin>0</Margin> -->
                 <Background>
                     <R>255</R>
-                    <G>255</G>
-                    <B>255</B>
+                    <G>191</G>
+                    <B>191</B>
                 </Background>
             </ImageView>
         </BodyComposite>

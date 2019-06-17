@@ -55,7 +55,10 @@ type MainWindowConfig struct {
 						Text string
 					}
 					CatalogLabel struct {
-						Text string
+						Text    string
+						MaxSize struct {
+							Width, Height int
+						}
 					}
 					CatalogComboBox struct {
 						MaxSize struct {
@@ -66,7 +69,10 @@ type MainWindowConfig struct {
 						}
 					}
 					SizeLabel struct {
-						Text string
+						Text    string
+						MaxSize struct {
+							Width, Height int
+						}
 					}
 					SizeComboBox struct {
 						MaxSize struct {
@@ -77,7 +83,10 @@ type MainWindowConfig struct {
 						}
 					}
 					SearchLabel struct {
-						Text string
+						Text    string
+						MaxSize struct {
+							Width, Height int
+						}
 					}
 					LineEdit struct {
 						Text    string
@@ -113,6 +122,19 @@ type MainWindowConfig struct {
 				}
 				MinSize struct {
 					Width, Height int
+				}
+				Font struct {
+					Family                             string
+					PointSize                          int
+					Bold, Italic, UnderLine, StrikeOut bool
+				}
+				RowSpan            int
+				Row                int
+				Column             int
+				ColumnSpan         int
+				AlwaysConsumeSpace bool
+				Background         struct {
+					R, G, B byte
 				}
 			}
 			ImageView struct {

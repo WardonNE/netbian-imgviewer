@@ -16,6 +16,10 @@ type CrawlConfig struct {
 		TargetElement      string
 		TargetElementIndex int
 	}
+	ImageList struct {
+		TargetElement      string
+		TargetElementIndex int
+	}
 }
 
 var CrawlConf = &CrawlConfig{}
