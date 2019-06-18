@@ -24,6 +24,7 @@ func GetImageView() ImageView {
 		Color: walk.RGB(imageview.Background.R, imageview.Background.G, imageview.Background.B),
 	}
 	return ImageView{
+		AssignTo:   &mw.imageviewer,
 		Image:      image,
 		Background: background,
 		Margin:     margin,
