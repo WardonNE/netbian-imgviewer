@@ -54,7 +54,7 @@ func GetImageListBox() ListBox {
 		ColumnSpan:            imagelb.ColumnSpan,
 		AlwaysConsumeSpace:    imagelb.AlwaysConsumeSpace,
 		Background:            SolidColorBrush{Color: walk.RGB(imagelb.Background.R, imagelb.Background.G, imagelb.Background.B)},
-		Model:                 GetImageListBoxModel(),
+		Model:                 mw.imagelbmodel,
 		OnCurrentIndexChanged: mw.imageLbModelOnCurrentIndexChanged,
 	}
 }
@@ -68,8 +68,8 @@ type imageItem struct {
 	title, url string
 }
 
-func GetImageListBoxModel() *imageListBoxModel {
-	imagelist := crawl.LoadImageList(1)
+func GetImageListBoxModel(page int) *imageListBoxModel {
+	imagelist, activepage, totalpage := crawl.LoadImageList(page)
 	model := &imageListBoxModel{
 		items: make([]imageItem, len(imagelist)),
 	}
@@ -80,11 +80,30 @@ func GetImageListBoxModel() *imageListBoxModel {
 		}
 	}
 	mw.imagelbmodel = model
+	mw.activepage = activepage
+	mw.totalpage = totalpage
 	return model
 }
 
+func reloadImageList(page int) {
+	imagelist, activepage, totalpage := crawl.LoadImageList(page)
+	model := &imageListBoxModel{
+		items: make([]imageItem, len(imagelist)),
+	}
+	for key, image := range imagelist {
+		model.items[key] = imageItem{
+			title: image.Name,
+			url:   image.Url,
+		}
+	}
+	mw.imagelbmodel = model
+	mw.activepage = activepage
+	mw.totalpage = totalpage
+	mw.imagelb.SetModel(model)
+}
+
 func reloadImageListModelByCatalog(url string, page int) {
-	imagelist := crawl.LoadImageByCatalog(url, page)
+	imagelist, activepage, totalpage := crawl.LoadImageByCatalog(url, page)
 	model := &imageListBoxModel{
 		items: make([]imageItem, len(imagelist)),
 	}
@@ -97,10 +116,12 @@ func reloadImageListModelByCatalog(url string, page int) {
 	mw.imagelbmodel = model
 	mw.imagelb.SetModel(model)
 	mw.sizecb.SetCurrentIndex(-1)
+	mw.activepage = activepage
+	mw.totalpage = totalpage
 }
 
 func reloadImageListModelBySize(url string, page int) {
-	imagelist := crawl.LoadImageBySize(url, page)
+	imagelist, activepage, totalpage := crawl.LoadImageBySize(url, page)
 	model := &imageListBoxModel{
 		items: make([]imageItem, len(imagelist)),
 	}
@@ -113,10 +134,13 @@ func reloadImageListModelBySize(url string, page int) {
 	mw.imagelbmodel = model
 	mw.imagelb.SetModel(model)
 	mw.catalogcb.SetCurrentIndex(-1)
+	mw.activepage = activepage
+	mw.totalpage = totalpage
 }
 
 func reloadIamgeListModeBySearchKeyword(keyword string, page int) {
-	imagelist := crawl.LoadImageBySearchKeyword(keyword, page)
+	imagelist, activepage, totalpage := crawl.LoadImageBySearchKeyword(keyword, page)
+	fmt.Println(activepage, totalpage)
 	model := &imageListBoxModel{
 		items: make([]imageItem, len(imagelist)),
 	}
@@ -129,6 +153,9 @@ func reloadIamgeListModeBySearchKeyword(keyword string, page int) {
 	mw.imagelbmodel = model
 	mw.imagelb.SetModel(model)
 	mw.catalogcb.SetCurrentIndex(-1)
+	mw.sizecb.SetCurrentIndex(-1)
+	mw.activepage = activepage
+	mw.totalpage = totalpage
 }
 
 func (i *imageListBoxModel) ItemCount() int {
@@ -142,4 +169,6 @@ func (i *imageListBoxModel) Value(index int) interface{} {
 func (mw *MyMainWindow) imageLbModelOnCurrentIndexChanged() {
 	i := mw.imagelb.CurrentIndex()
 	fmt.Println("Current Index(Image List Box): ", i)
+	activeItem := mw.imagelbmodel.items[i]
+	crawl.DownloadImage(activeItem.url, activeItem.title)
 }

@@ -10,17 +10,30 @@ import (
 
 type MyMainWindow struct {
 	*walk.MainWindow
-	catalogcb      *walk.ComboBox
-	catalogcbmodel *catalogComboBoxModel
-	sizecb         *walk.ComboBox
-	sizecbmodel    *sizeComboBoxModel
-	imagelb        *walk.ListBox
-	imagelbmodel   *imageListBoxModel
-	searchpb       *walk.PushButton
-	searchle       *walk.LineEdit
+	activepage            int
+	totalpage             int
+	searchkeyword         string
+	catalogcbcurrentindex int
+	sizecbcurrentindex    int
+	catalogcb             *walk.ComboBox
+	catalogcbmodel        *catalogComboBoxModel
+	sizecb                *walk.ComboBox
+	sizecbmodel           *sizeComboBoxModel
+	imagelb               *walk.ListBox
+	imagelbmodel          *imageListBoxModel
+	searchpb              *walk.PushButton
+	searchle              *walk.LineEdit
+	nextpagepb            *walk.PushButton
+	prevpagepb            *walk.PushButton
 }
 
-var mw = &MyMainWindow{}
+var mw = &MyMainWindow{
+	activepage: 1,
+}
+
+func init() {
+	GetImageListBoxModel(1)
+}
 
 func CreateMainWindow() {
 	m := MainWindow{

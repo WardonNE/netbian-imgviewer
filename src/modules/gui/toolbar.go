@@ -158,27 +158,27 @@ func GetSearchLineEdit() LineEdit {
 func GetSearchPushButton() PushButton {
 	pb := app.MainWindowConf.Children.ToolBarComposite.Children.Widget.SearchPushButton
 	return PushButton{
-		// AssignTo: &mw.searchpb,
-		Text: pb.Text,
-		OnClicked: func() {
-			keyword := mw.searchle.Text()
-			fmt.Println("Search Keyword:", keyword)
-			reloadIamgeListModeBySearchKeyword(keyword, 1)
-		},
+		AssignTo:  &mw.searchpb,
+		Text:      pb.Text,
+		OnClicked: searchPbOnClick,
 	}
 }
 
 func GetPrevPagePushButton() PushButton {
 	pb := app.MainWindowConf.Children.ToolBarComposite.Children.Widget.PrevPagePushButton
 	return PushButton{
-		Text: pb.Text,
+		AssignTo:  &mw.prevpagepb,
+		Text:      pb.Text,
+		OnClicked: prevPagePbOnClicked,
 	}
 }
 
 func GetNextPagePushButton() PushButton {
 	pb := app.MainWindowConf.Children.ToolBarComposite.Children.Widget.NextPagePushButton
 	return PushButton{
-		Text: pb.Text,
+		AssignTo:  &mw.nextpagepb,
+		Text:      pb.Text,
+		OnClicked: nextPagePbOnClicked,
 	}
 }
 
@@ -217,10 +217,13 @@ func GetCatalogsComboBoxModel() *catalogComboBoxModel {
 func (mw *MyMainWindow) catalogCbModelOnCurrentIndexChanged() {
 	i := mw.catalogcb.CurrentIndex()
 	fmt.Println("Current Index(Catalog Combo Box):", i)
-	if i < 0 {
+	oldcurrentindex := mw.sizecbcurrentindex
+	if i < 0 || i == oldcurrentindex {
 		return
 	}
+	mw.catalogcbcurrentindex = i
 	activeItem := &mw.catalogcbmodel.items[i]
+	mw.activepage = 1
 	reloadImageListModelByCatalog(activeItem.url, 1)
 }
 
@@ -256,18 +259,88 @@ func (s *sizeComboBoxModel) Value(index int) interface{} {
 	return s.items[index].title
 }
 
-func (m *MyMainWindow) sizeCbModelOnCurrentIndexChanged() {
-	i := m.sizecb.CurrentIndex()
+func (mw *MyMainWindow) sizeCbModelOnCurrentIndexChanged() {
+	i := mw.sizecb.CurrentIndex()
 	fmt.Println("Current Index(Size Combo Box): ", i)
-	if i < 0 {
+	oldcurrentindex := mw.sizecbcurrentindex
+	if i < 0 || i == oldcurrentindex {
 		return
 	}
-	activeItem := m.sizecbmodel.items[i]
+	mw.sizecbcurrentindex = i
+	activeItem := mw.sizecbmodel.items[i]
+	mw.activepage = 1
 	reloadImageListModelBySize(activeItem.url, 1)
 }
 
 func searchPbOnClick() {
 	keyword := mw.searchle.Text()
 	fmt.Println("Search Keyword:", keyword)
-	reloadIamgeListModeBySearchKeyword(keyword, 1)
+	if keyword == "" {
+		return
+	}
+	mw.searchkeyword = keyword
+	mw.activepage = 1
+	reloadIamgeListModeBySearchKeyword(keyword, 0)
+}
+
+func prevPagePbOnClicked() {
+	var prevpage = mw.activepage - 1
+	fmt.Println("Active Page: ", mw.activepage, "Prev Page: ", prevpage)
+	if prevpage <= 0 {
+		prevpage = 1
+	}
+	keyword := mw.searchle.Text()
+	fmt.Println("Search Keyword: ", keyword)
+	if keyword != "" {
+		reloadIamgeListModeBySearchKeyword(keyword, prevpage-1)
+		return
+	}
+	catalogcurrentindex := mw.catalogcb.CurrentIndex()
+	fmt.Println("Catalog Combo Box Current Index: ", catalogcurrentindex)
+	if catalogcurrentindex >= 0 {
+		i := mw.catalogcb.CurrentIndex()
+		activeItem := mw.catalogcbmodel.items[i]
+		reloadImageListModelByCatalog(activeItem.url, prevpage)
+		return
+	}
+	sizecurrentindex := mw.sizecb.CurrentIndex()
+	fmt.Println("Size Combo Box Current Index: ", sizecurrentindex)
+	if sizecurrentindex >= 0 {
+		i := mw.sizecb.CurrentIndex()
+		activeItem := mw.sizecbmodel.items[i]
+		reloadImageListModelBySize(activeItem.url, prevpage)
+		return
+	}
+	reloadImageList(prevpage)
+}
+
+func nextPagePbOnClicked() {
+	var nextpage = mw.activepage + 1
+	fmt.Println("Active Page: ", mw.activepage, "Next Page: ", nextpage)
+	if nextpage > mw.totalpage {
+		nextpage = mw.totalpage
+	}
+	keyword := mw.searchle.Text()
+	fmt.Println("Search Keyword: ", keyword)
+	if keyword != "" {
+		reloadIamgeListModeBySearchKeyword(keyword, nextpage-1)
+		return
+	}
+	catalogcurrentindex := mw.catalogcb.CurrentIndex()
+	fmt.Println("Catalog Combo Box Current Index: ", catalogcurrentindex)
+	if catalogcurrentindex >= 0 {
+		i := mw.catalogcb.CurrentIndex()
+		activeItem := mw.catalogcbmodel.items[i]
+		reloadImageListModelByCatalog(activeItem.url, nextpage)
+		return
+	}
+	sizecurrentindex := mw.sizecb.CurrentIndex()
+	fmt.Println("Size Combo Box Current Index: ", sizecurrentindex)
+	if sizecurrentindex >= 0 {
+		i := mw.sizecb.CurrentIndex()
+		activeItem := mw.sizecbmodel.items[i]
+		reloadImageListModelBySize(activeItem.url, nextpage)
+		return
+	}
+	reloadImageList(nextpage)
 }

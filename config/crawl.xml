@@ -14,5 +14,21 @@
     </ImageList>
     <Search>
         <SearchApi>/e/sch/index.php</SearchApi>
+        <SearchResult>
+            <TaregtElement>div.ltitle>span</TaregtElement>
+            <TargetElementIndex>0</TargetElementIndex>
+        </SearchResult>
     </Search>
+    <Page>
+        <TargetElement>div.page</TargetElement>
+        <TargetElementIndex>0</TargetElementIndex>
+        <ActivePage>
+            <TargetElement>b</TargetElement>
+            <TaregtElement>0</TaregtElement>
+        </ActivePage>
+        <TotalPage>
+            <TargetElement>:contains(下一页)</TargetElement>
+            <TargetElementIndex>0</TargetElementIndex>
+        </TotalPage>
+    </Page>
 </Config>

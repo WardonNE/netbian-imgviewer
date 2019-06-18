@@ -21,7 +21,23 @@ type CrawlConfig struct {
 		TargetElementIndex int
 	}
 	Search struct {
-		SearchApi string
+		SearchApi    string
+		SearchResult struct {
+			TargetElement      string
+			TargetElementIndex int
+		}
+	}
+	Page struct {
+		TargetElement      string
+		TargetElementIndex int
+		ActivePage         struct {
+			TargetElement      string
+			TargetElementIndex int
+		}
+		TotalPage struct {
+			TargetElement      string
+			TargetElementIndex int
+		}
 	}
 }
 

@@ -6,15 +6,30 @@ import (
 	"log"
 	"modules/app"
 	"net/http"
+	"net/url"
+	"strconv"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-
 	"github.com/WardonNE/util/convert"
+	"github.com/axgle/mahonia"
 )
 
 type Catalog struct {
 	Name, Href, Title string
+}
+
+func between(str, starting, ending string) string {
+	s := strings.Index(str, starting)
+	if s < 0 {
+		return ""
+	}
+	s += len(starting)
+	e := strings.Index(str[s:], ending)
+	if e < 0 {
+		return ""
+	}
+	return str[s : s+e]
 }
 
 func LoadCatalogs() []Catalog {
@@ -115,14 +130,19 @@ type imageListItem struct {
 	Name, Url string
 }
 
-func LoadImageList(page int) []imageListItem {
+func LoadImageList(page int) ([]imageListItem, int, int) {
 	var imagelist = make([]imageListItem, 0)
 	var url = app.CrawlConf.RootUrl
+	var (
+		activepage = page
+		totalpage  int
+	)
 	if page > 1 {
-		url = url + "/index_" + string(page) + ".htm"
+		url = url + "/index_" + strconv.Itoa(page) + ".htm"
 	} else {
 		url = url + "/index.htm"
 	}
+	fmt.Println("request url:", url)
 	request, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		log.Panicln("create request error:", err)
@@ -159,19 +179,30 @@ func LoadImageList(page int) []imageListItem {
 				})
 			}
 		})
+		pageconfig := app.CrawlConf.Page
+		activepagedom := dom.Find(pageconfig.TargetElement).Eq(pageconfig.TargetElementIndex).Find(pageconfig.ActivePage.TargetElement).Eq(pageconfig.ActivePage.TargetElementIndex)
+		activepage, _ = strconv.Atoi(activepagedom.Text())
+		totalpagedom := dom.Find(pageconfig.TargetElement).Eq(pageconfig.TargetElementIndex).Find(pageconfig.TotalPage.TargetElement).Eq(pageconfig.TotalPage.TargetElementIndex).Prev()
+		totalpagestring := totalpagedom.Text()
+		totalpage, _ = strconv.Atoi(totalpagestring)
 	} else {
 		fmt.Println("Status Code:", response.StatusCode)
 	}
-	return imagelist
+	return imagelist, activepage, totalpage
 }
 
-func LoadImageByCatalog(url string, page int) []imageListItem {
+func LoadImageByCatalog(url string, page int) ([]imageListItem, int, int) {
 	var imagelist = make([]imageListItem, 0)
 	if page > 1 {
-		url = url + "index_" + string(page) + ".htm"
+		url = url + "index_" + strconv.Itoa(page) + ".htm"
 	} else {
 		url = url + "index.htm"
 	}
+	fmt.Println("request url:", url)
+	var (
+		activepage = page
+		totalpage  int
+	)
 	request, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		log.Panicln("create request error:", err)
@@ -208,19 +239,28 @@ func LoadImageByCatalog(url string, page int) []imageListItem {
 				})
 			}
 		})
+		pageconfig := app.CrawlConf.Page
+		totalpagedom := dom.Find(pageconfig.TargetElement).Eq(pageconfig.TargetElementIndex).Find(pageconfig.TotalPage.TargetElement).Eq(pageconfig.TotalPage.TargetElementIndex).Prev()
+		totalpagestring := totalpagedom.Text()
+		totalpage, _ = strconv.Atoi(totalpagestring)
 	} else {
 		fmt.Println("Status Code:", response.StatusCode)
 	}
-	return imagelist
+	return imagelist, activepage, totalpage
 }
 
-func LoadImageBySize(url string, page int) []imageListItem {
+func LoadImageBySize(url string, page int) ([]imageListItem, int, int) {
 	var imagelist = make([]imageListItem, 0)
 	if page > 1 {
-		url = url + "index_" + string(page) + ".htm"
+		url = url + "index_" + strconv.Itoa(page) + ".htm"
 	} else {
 		url = url + "index.htm"
 	}
+	fmt.Println("request url:", url)
+	var (
+		activepage = page
+		totalpage  int
+	)
 	request, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		log.Panicln("create request error: ", request)
@@ -256,17 +296,28 @@ func LoadImageBySize(url string, page int) []imageListItem {
 				})
 			}
 		})
+		pageconfig := app.CrawlConf.Page
+		totalpagedom := dom.Find(pageconfig.TargetElement).Eq(pageconfig.TargetElementIndex).Find(pageconfig.TotalPage.TargetElement).Eq(pageconfig.TotalPage.TargetElementIndex).Prev()
+		totalpagestring := totalpagedom.Text()
+		totalpage, _ = strconv.Atoi(totalpagestring)
 	} else {
 		fmt.Println("Status Code:", response.StatusCode)
 	}
-	return imagelist
+	return imagelist, activepage, totalpage
 }
 
-func LoadImageBySearchKeyword(keyword string, page int) []imageListItem {
+func LoadImageBySearchKeyword(keyword string, page int) ([]imageListItem, int, int) {
 	var imagelist = make([]imageListItem, 0)
-	fmt.Println(page)
-	url := app.CrawlConf.RootUrl + app.CrawlConf.Search.SearchApi + "?keyboard=" + keyword + "&page=" + string(page)
-	fmt.Println("Search Url:", url)
+	var (
+		activepage = page + 1
+		totalpage  int
+	)
+	params := url.Values{}
+	gbkkeyword := mahonia.NewEncoder("GBK").ConvertString(keyword)
+	params.Add("keyboard", gbkkeyword)
+	params.Add("page", strconv.Itoa(page))
+	url := app.CrawlConf.RootUrl + app.CrawlConf.Search.SearchApi + "?" + params.Encode()
+	fmt.Println("request url:", url)
 	request, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		log.Panicln("create request error:", err)
@@ -293,18 +344,23 @@ func LoadImageBySearchKeyword(keyword string, page int) []imageListItem {
 		}
 		imagelistconfig := app.CrawlConf.ImageList
 		dom.Find(imagelistconfig.TargetElement).Eq(imagelistconfig.TargetElementIndex).Find("li").Each(func(i int, s *goquery.Selection) {
+			divElement := s.Find("div.pic_box")
 			aElement := s.Find("a")
-			href, _ := aElement.Attr("href")
-			title, exist := aElement.Attr("title")
-			if exist {
+			if divElement.Length() == 0 {
+				href, _ := aElement.Attr("href")
+				bElement := aElement.Find("b")
 				imagelist = append(imagelist, imageListItem{
 					Url:  app.CrawlConf.RootUrl + href,
-					Name: title,
+					Name: bElement.Text(),
 				})
 			}
 		})
+		pageconfig := app.CrawlConf.Page
+		totalpagedom := dom.Find(pageconfig.TargetElement).Eq(pageconfig.TargetElementIndex).Find(pageconfig.TotalPage.TargetElement).Eq(pageconfig.TotalPage.TargetElementIndex).Prev()
+		totalpagestring := totalpagedom.Text()
+		totalpage, _ = strconv.Atoi(totalpagestring)
 	} else {
 		fmt.Println("Status Code:", response.StatusCode)
 	}
-	return imagelist
+	return imagelist, activepage, totalpage
 }
