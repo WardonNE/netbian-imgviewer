@@ -169,6 +169,9 @@ func (i *imageListBoxModel) Value(index int) interface{} {
 func (mw *MyMainWindow) imageLbModelOnCurrentIndexChanged() {
 	i := mw.imagelb.CurrentIndex()
 	fmt.Println("Current Index(Image List Box): ", i)
+	if i < 0 {
+		return
+	}
 	activeItem := mw.imagelbmodel.items[i]
 	crawl.DownloadImage(activeItem.url, activeItem.title)
 }

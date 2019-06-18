@@ -3,7 +3,10 @@ package crawl
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"fmt"
+	"io"
 	"log"
+	"net/http"
 	"os"
 	"path/filepath"
 
@@ -21,7 +24,7 @@ func init() {
 		log.Panicln("init error:", err)
 	}
 	binpath := filepath.Dir(exepath)
-	tmpdir = binpath + downloadconfig.TmpDir
+	tmpdir = binpath + "/" + downloadconfig.TmpDir
 }
 
 func Md5(src string) string {
@@ -31,7 +34,7 @@ func Md5(src string) string {
 }
 
 func fileExist(path string) (bool, error) {
-	_, err := os.Stat(path)
+	_, err := os.Open(path)
 	if err == nil {
 		return true, nil
 	}
@@ -43,11 +46,20 @@ func fileExist(path string) (bool, error) {
 
 func DownloadImage(url, title string) {
 	filename := tmpdir + "/" + Md5(title)
-	exist, err := fileExist(filename)
+	fmt.Println("filename:", filename)
+	// exist, err := fileExist(filename)
+	// if err != nil {
+	// 	log.Panicln("check file exist error:", err)
+	// }
+	// if !exist {
+	response, err := http.Get(url)
 	if err != nil {
-		log.Panic("check file exist error:", err)
+		log.Panicln("send get request error:", err)
 	}
-	if !exist {
-		
+	f, err := os.Create(filename)
+	if err != nil {
+		log.Panicln("create file error: ", err)
 	}
+	io.Copy(f, response.Body)
+	// }
 }

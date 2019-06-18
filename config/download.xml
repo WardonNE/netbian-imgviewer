@@ -1,4 +1,4 @@
 <Config>
     <TmpDir>../tmp</TmpDir>
-    <Expire>259,200</Expire>
+    <Expire>259200</Expire>
 </Config>
