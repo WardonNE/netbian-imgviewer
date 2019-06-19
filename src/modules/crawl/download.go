@@ -5,10 +5,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
-<<<<<<< HEAD
-=======
 	"io/ioutil"
->>>>>>> f2a602c195fba3c41a52f001832d7930fb459c0a
 	"log"
 	"net/http"
 	"os"
