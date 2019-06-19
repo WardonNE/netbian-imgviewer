@@ -3,3 +3,4 @@
 *.a
 *.syso
 src/github.com
+tmp/*

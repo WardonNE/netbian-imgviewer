@@ -7,8 +7,12 @@ import (
 )
 
 type DownloadConfig struct {
-	TmpDir string
-	Expire int
+	TmpDir             string
+	Expire             int
+	DownloadUrlElement struct {
+		TargetElement      string
+		TargetElementIndex int
+	}
 }
 
 var DownloadConf = &DownloadConfig{}

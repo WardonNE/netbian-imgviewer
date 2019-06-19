@@ -35,6 +35,7 @@ func between(str, starting, ending string) string {
 func LoadCatalogs() []Catalog {
 	var catalogs = make([]Catalog, 0)
 	var url = app.CrawlConf.RootUrl
+	fmt.Println("request url: ", url)
 	request, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		log.Panicln("create request error: ", err)
@@ -85,6 +86,7 @@ type SizeClass struct {
 func LoadSizeClasses() []SizeClass {
 	var sizeclasses = make([]SizeClass, 0)
 	var url = app.CrawlConf.RootUrl
+	fmt.Println("request url: ", url)
 	request, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		log.Panicln("create request error:", err)

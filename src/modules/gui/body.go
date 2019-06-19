@@ -2,8 +2,10 @@ package gui
 
 import (
 	"fmt"
+	"log"
 	"modules/app"
 	"modules/crawl"
+	"strings"
 
 	"github.com/lxn/walk"
 
@@ -173,5 +175,18 @@ func (mw *MyMainWindow) imageLbModelOnCurrentIndexChanged() {
 		return
 	}
 	activeItem := mw.imagelbmodel.items[i]
-	crawl.DownloadImage(activeItem.url, activeItem.title)
+	filename := crawl.DownloadImage(activeItem.url, activeItem.title)
+	if filename != "" {
+		filename = strings.Replace(filename, "/", "\\", -1)
+		filename = strings.Replace(filename, "bin\\..\\", "", 1)
+		fmt.Println(filename)
+		image, err := walk.NewImageFromFile(filename)
+		if err != nil {
+			log.Panicln("new image error: ", err)
+		}
+		err = mw.imageviewer.SetImage(image)
+		if err != nil {
+			log.Panicln("set image error: ", err)
+		}
+	}
 }

@@ -3,6 +3,8 @@ package gui
 import (
 	"log"
 	"modules/app"
+	"os"
+	"path/filepath"
 
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
@@ -25,6 +27,7 @@ type MyMainWindow struct {
 	searchle              *walk.LineEdit
 	nextpagepb            *walk.PushButton
 	prevpagepb            *walk.PushButton
+	imageviewer           *walk.ImageView
 }
 
 var mw = &MyMainWindow{
@@ -33,6 +36,13 @@ var mw = &MyMainWindow{
 
 func init() {
 	GetImageListBoxModel(1)
+	exepath, err := os.Executable()
+	if err != nil {
+		log.Panicln("init error:", err)
+	}
+	binpath := filepath.Dir(exepath)
+	tmpdir := binpath + "/../tmp"
+	walk.Resources.SetRootDirPath(tmpdir)
 }
 
 func CreateMainWindow() {
