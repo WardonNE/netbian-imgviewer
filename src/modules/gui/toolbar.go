@@ -49,7 +49,9 @@ func GetToolBarCompositeWidgets() []Widget {
 func GetFollowPushButton() PushButton {
 	pb := app.MainWindowConf.Children.ToolBarComposite.Children.Widget.FollowPushButton
 	return PushButton{
-		Text: pb.Text,
+		AssignTo:  &mw.followpb,
+		Text:      pb.Text,
+		OnClicked: mw.followPbOnClicked,
 	}
 }
 
@@ -63,7 +65,9 @@ func GetCancelFollowPushButton() PushButton {
 func GetDownloadPushButton() PushButton {
 	pb := app.MainWindowConf.Children.ToolBarComposite.Children.Widget.DownloadPushButton
 	return PushButton{
-		Text: pb.Text,
+		AssignTo:  &mw.downloadpb,
+		Text:      pb.Text,
+		OnClicked: mw.donwloadPbOnClicked,
 	}
 }
 
@@ -343,4 +347,37 @@ func nextPagePbOnClicked() {
 		return
 	}
 	reloadImageList(nextpage)
+}
+
+func (mw *MyMainWindow) donwloadPbOnClicked() {
+	i := mw.imagelb.CurrentIndex()
+	fmt.Println("Current Index(Image List Box): ", i)
+	if i < 0 {
+		return
+	}
+	activeItem := mw.imagelbmodel.items[i]
+	crawl.DownloadIntoDataDir(activeItem.url, activeItem.title)
+	walk.MsgBox(mw, "Download", "Download Completed!", walk.MsgBoxIconInformation)
+}
+
+func (mw *MyMainWindow) followPbOnClicked() {
+	i := mw.imagelb.CurrentIndex()
+	fmt.Println("Current Index(Image List Box): ", i)
+	if i < 0 {
+		return
+	}
+	activeItem := mw.imagelbmodel.items[i]
+	status, err := crawl.AddFavorite(activeItem.url, activeItem.title)
+	if err != nil {
+		walk.MsgBox(mw, "Add Favorite", err.Error(), walk.MsgBoxIconWarning)
+		return
+	}
+	if status == 1 {
+		walk.MsgBox(mw, "Add Favorite", "Add Favorite Success", walk.MsgBoxIconInformation)
+		return
+	}
+	if status == -2 {
+		walk.MsgBox(mw, "Add Favorite", "This Image Has Been In Favorite List", walk.MsgBoxIconWarning)
+		return
+	}
 }

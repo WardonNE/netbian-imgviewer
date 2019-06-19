@@ -4,3 +4,4 @@
 *.syso
 src/github.com
 tmp/*
+data

@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -19,7 +20,9 @@ import (
 	"modules/app"
 )
 
-var tmpdir string
+var tmpdir, downloaddir, favoritedir string
+
+var settings app.SettingsConfig
 
 var downloadconfig app.DownloadConfig
 
@@ -30,7 +33,11 @@ func init() {
 		log.Panicln("init error:", err)
 	}
 	binpath := filepath.Dir(exepath)
-	tmpdir = binpath + "/" + downloadconfig.TmpDir
+	tmpdir = binpath + "\\" + downloadconfig.TmpDir
+
+	settings = *app.Settings
+	downloaddir = binpath + "\\" + settings.DownloadDir
+	favoritedir = binpath + "\\" + settings.FavoriteDir
 }
 
 func Md5(src string) string {
@@ -96,4 +103,74 @@ func DownloadImage(url, title string) string {
 		return filename
 	}
 	return ""
+}
+
+func DownloadIntoDataDir(url, title string) {
+	filename := downloaddir + "\\" + Md5(title) + ".jpg"
+	exist, _ := fileExist(filename)
+	if exist {
+		fmt.Println("this image has been downloaded")
+	}
+	tmpfilename := tmpdir + "\\" + Md5(title) + ".jpg"
+	exist, _ = fileExist(tmpfilename)
+	if !exist {
+		DownloadImage(url, title)
+	}
+	tmpf, err := os.Open(tmpfilename)
+	if err != nil {
+		log.Panicln("open tmp file error: ", err)
+	}
+	defer tmpf.Close()
+	newf, err := os.Create(filename)
+	if err != nil {
+		log.Panicln("open new file error: ", err)
+	}
+	defer newf.Close()
+	io.Copy(newf, tmpf)
+}
+
+func AddFavorite(url, title string) (int, error) {
+	favoriterecordfile := favoritedir + "\\favorite.xml"
+	exist, _ := fileExist(favoriterecordfile)
+	if !exist {
+		f, err := os.Create(favoriterecordfile)
+		if err != nil {
+			log.Panicln("create favorite record file error: ", err)
+		}
+		defer f.Close()
+		xmlstring := "<Image href=\"" + url + "\" title=\"" + title + "\"></Image>\r\n"
+		_, err = f.WriteString(xmlstring)
+		if err != nil {
+			return -1, err
+		}
+		return 1, nil
+	} else {
+		xmlstring := "<Image href=\"" + url + "\" title=\"" + title + "\"></Image>"
+		f, err := os.OpenFile(favoriterecordfile, os.O_APPEND|os.O_RDWR, 0777)
+		if err != nil {
+			log.Panicln("open favoriterecordfile error: ", err)
+		}
+		defer f.Close()
+		filecontent, err := ioutil.ReadAll(f)
+		if err != nil {
+			log.Panicln("read file content error: ", err)
+		}
+		reg := regexp.MustCompile(xmlstring)
+		str := reg.FindAllString(string(filecontent), 1)
+		fmt.Println("match string: ", str)
+		fmt.Println("file content: ", string(filecontent))
+		if len(str) > 0 {
+			// walk.MsgBox(mw, "Add Favorite", "this image has been added into favorite list", walk.MsgBoxIconInformation)
+			return -2, nil
+		}
+		_, err = f.WriteString(xmlstring + "\r\n")
+		if err != nil {
+			return -1, err
+		}
+		return 1, nil
+	}
+}
+
+func RemoveFavorite(url, title string) {
+
 }

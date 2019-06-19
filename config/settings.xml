@@ -1,0 +1,4 @@
+<Config>
+    <DownloadDir>..\data\download</DownloadDir>
+    <FavoriteDir>..\data\favorite</FavoriteDir>
+</Config>

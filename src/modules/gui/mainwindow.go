@@ -28,6 +28,8 @@ type MyMainWindow struct {
 	nextpagepb            *walk.PushButton
 	prevpagepb            *walk.PushButton
 	imageviewer           *walk.ImageView
+	downloadpb            *walk.PushButton
+	followpb              *walk.PushButton
 }
 
 var mw = &MyMainWindow{
@@ -84,4 +86,8 @@ func getMaxSize() Size {
 		app.MainWindowConf.MainWindowSize.MaxSize.Width,
 		app.MainWindowConf.MainWindowSize.MaxSize.Height,
 	}
+}
+
+func (mw *MyMainWindow) Alert(title, message string, style walk.MsgBoxStyle) {
+	walk.MsgBox(mw, title, message, style)
 }
