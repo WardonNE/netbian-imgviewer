@@ -3,7 +3,7 @@ package gui
 import (
 	. "github.com/lxn/walk/declarative"
 
-	"modules/app"
+	"netbian-imgviewer/src/modules/app"
 )
 
 func GetVBox() VBox {

@@ -1,5 +1,5 @@
 <Config>
-    <TmpDir>..\tmp</TmpDir>
+    <TmpDir>\tmp</TmpDir>
     <Expire>259200</Expire>
     <DownloadUrlElement>
         <TargetElement>table#endimg a</TargetElement>

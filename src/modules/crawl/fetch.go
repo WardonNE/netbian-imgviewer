@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"modules/app"
 	"net/http"
 	"net/url"
+	"netbian-imgviewer/src/modules/app"
 	"strconv"
 	"strings"
 

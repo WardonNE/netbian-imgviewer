@@ -1,7 +1,7 @@
 package gui
 
 import (
-	"modules/app"
+	"netbian-imgviewer/src/modules/app"
 
 	. "github.com/lxn/walk/declarative"
 )

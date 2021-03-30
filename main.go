@@ -1,6 +1,6 @@
 package main
 
-import "modules/gui"
+import "netbian-imgviewer/src/modules/gui"
 
 func main() {
 	gui.CreateMainWindow()

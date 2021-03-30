@@ -3,8 +3,8 @@ package gui
 import (
 	"fmt"
 	"log"
-	"modules/app"
-	"modules/crawl"
+	"netbian-imgviewer/src/modules/app"
+	"netbian-imgviewer/src/modules/crawl"
 	"strings"
 
 	"github.com/lxn/walk"

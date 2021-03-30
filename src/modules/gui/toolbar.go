@@ -6,8 +6,8 @@ import (
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 
-	"modules/app"
-	"modules/crawl"
+	"netbian-imgviewer/src/modules/app"
+	"netbian-imgviewer/src/modules/crawl"
 )
 
 func GetToolBarList() Composite {

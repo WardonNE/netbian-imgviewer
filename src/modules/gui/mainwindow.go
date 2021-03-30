@@ -2,7 +2,7 @@ package gui
 
 import (
 	"log"
-	"modules/app"
+	"netbian-imgviewer/src/modules/app"
 	"os"
 	"path/filepath"
 
@@ -43,7 +43,7 @@ func init() {
 		log.Panicln("init error:", err)
 	}
 	binpath := filepath.Dir(exepath)
-	tmpdir := binpath + "/../tmp"
+	tmpdir := binpath + "/tmp"
 	walk.Resources.SetRootDirPath(tmpdir)
 }
 

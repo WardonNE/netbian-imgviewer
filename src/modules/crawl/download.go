@@ -17,7 +17,7 @@ import (
 
 	"github.com/WardonNE/util/convert"
 
-	"modules/app"
+	"netbian-imgviewer/src/modules/app"
 )
 
 var tmpdir, downloaddir, favoritedir string
